@@ -19,22 +19,12 @@ To test and use this service without docker, run the following commands in termi
 git clone https://github.com/Sarah-afk/DeveloperTask.git
 cd DeveloperTask
 pip install -r requirements.txt
-```
-The database used for this service must be created before running, hence after cloning this repo and changing directory to its file, the following should be run in terminal:
-
-```bash
-python
-from database import *
-db.create_all()
-```
-Now that the database is created, exit python and continue running the following in the terminal
-```bash
 python flask_app.py
 ```
 The terminal will prompt a url that you can Ctrl and click to open the page in browser.
 
 ## Run inside Docker
-To run inside Docker, first make sure that docker is installed. Create the database if not created before like mentioned above, then run the following in terminal:
+To run inside Docker, first make sure that docker is installed, then run the following in terminal:
 
 ```bash
 git clone https://github.com/Sarah-afk/DeveloperTask.git

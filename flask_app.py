@@ -3,6 +3,7 @@ from flask import request, jsonify, render_template, json, Response
 import datetime
 import time
 from fibonacci import Fibonacci
+from database import *
 
 fib_obj = Fibonacci(cache)
 
@@ -56,4 +57,5 @@ def get_fib(n):
     return jsonify({"response": resp})
 
 if __name__ == "__main__":
+    db.create_all()
     app.run(host='0.0.0.0',port=2224, debug=True, threaded=True)
