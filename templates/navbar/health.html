@@ -1,0 +1,47 @@
+<html>
+	<style>
+		.pressed {
+			background-color: #286090;
+			box-shadow: 0 1px 2px #000;
+			top: 1px;
+		}
+	</style>
+	<script>
+		$(function(){
+			$.ajax({
+				url: "/health",
+				type: "POST",
+				success: function(data){
+					text = data["cached"]+" fibonacci sequences are cached <br><br>";
+					text += "<table class='table table-bordered'><thead><tr><th>Input</th><th>Date</th><th>Runtime</th></tr></thead><tbody>"
+					for(i=0; i<data["logs"].length; i++){
+						text += "<tr><td>"+data["logs"][i]["input"]+"</td>";
+						text += "<td>"+convert(data["logs"][i]["time"])+"</td>";
+						text += "<td>"+data["logs"][i]["runtime"]+" ms</td></tr>"
+					}
+					text += "</tbody></table>";
+					$("#health").html(text);
+				},
+				error: function(data){
+					$("#health").html("<h5>Not Working!</h5>")
+				}
+			});
+		});
+
+		function convert(date){
+			d = new Date(date);
+			return d.toLocaleString();
+		}
+	</script>
+
+	<div class="col-xs-10 col-xs-offset-1 col-md-6 col-md-offset-3" style="margin-top: 50px">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4>Health</h4>
+			</div>
+			<div class="panel-body">
+				<div id="health"></div>
+			</div>
+		</div>
+	</div>
+</html>

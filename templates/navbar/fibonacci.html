@@ -1,0 +1,100 @@
+<html>
+    <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <style>
+		.input-group-addon {
+			min-width: 150px;
+		}
+		div.form-control {
+			height: 100%;
+		}
+		#loader {
+          border: 12px solid #ddd;
+          border-radius: 50%;
+          border-top: 12px solid #2C3E50;
+          width: 70px;
+          height: 70px;
+          -webkit-animation: spin 2s linear infinite; /* Safari */
+          animation: spin 2s linear infinite;
+          margin: auto;
+        }
+
+        /* Safari */
+        @-webkit-keyframes spin {
+          0% { -webkit-transform: rotate(0deg); }
+          100% { -webkit-transform: rotate(360deg); }
+        }
+
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+	</style>
+	<script>
+		$(function(){
+            $("#getfibo").on('submit', function(event){
+				event.preventDefault();
+				show();
+			});
+
+			$("#loader").css("visibility", "hidden");
+			$("#loader").css("height", 0);
+		});
+
+		function show(){
+			$("#loader").css("visibility", "");
+			$("#loader").css("height", 70);
+			$("#results").css("visibility", "hidden");
+			$("#results").css("height", 0);
+			fib_num = $("#fib_num").val();
+			$.ajax({
+				url: "/fib/"+fib_num,
+				type: "POST",
+				data: {"is_html": "1"},
+				success: function(data){
+					text = ""
+					if(data["response"] != undefined){
+						for(i=0; i<data["response"].length; i++){
+							text += "["+data["response"][i].toString()+"] <br>"
+						}
+					} else if(data["url_response"] != undefined){
+						text = "Response is too long, <a href='"+data["url_response"]+"'>click here to show.</a>"
+					}
+					$("#results").html(text);
+					$("#loader").css("visibility", "hidden");
+					$("#loader").css("height", 0);
+				        $("#results").css("visibility", "");
+				        $("#results").css("height", "auto");
+				},
+				error: function(data){
+					if(data.responseJSON != null){
+						alert(data.responseJSON.error);
+					}
+				}
+			});
+		}
+	</script>
+	</head>
+	<body>
+	<div class="col-xs-12 col-md-10 col-md-offset-1" style="margin-top: 50px">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4>Fibonacci</h4>
+			</div>
+			<div class="panel-body">
+				<form id="getfibo">
+					<div class="input-group">
+						<span class="input-group-addon">Number</span>
+						<input id="fib_num" type="number" min="0" class="form-control" name="number" placeholder="Number" required/>
+					</div>
+					<div class="modal-footer">
+						<button id="saveBtn" type="submit" class="btn btn-primary">Run</button>
+					</div>
+				</form>
+				<div id='loader'></div>
+				<div id='results'></div>
+			</div>
+		</div>
+	</div>
+	</body>
+</html>
