@@ -18,6 +18,7 @@ To test and use this service without docker, run the following commands in termi
 ```bash
 git clone https://github.com/Sarah-afk/DeveloperTask.git
 cd DeveloperTask
+pip install -r requirements.txt
 ```
 The database used for this service must be created before running, hence after cloning this repo and changing directory to its file, the following should be run in terminal:
 
@@ -28,7 +29,6 @@ db.create_all()
 ```
 Now that the database is created, exit python and continue running the following in the terminal
 ```bash
-pip install -r requirements.txt
 python flask_app.py
 ```
 The terminal will prompt a url that you can Ctrl and click to open the page in browser.
@@ -39,7 +39,7 @@ To run inside Docker, first make sure that docker is installed. Create the datab
 ```bash
 git clone https://github.com/Sarah-afk/DeveloperTask.git
 cd DeveloperTask
-docker build -t <image name>
+docker build -t <image name> .
 docker run -it -p 2224:2224 <image name>:latest
 ```
 The terminal will prompt a url that you can Ctrl and click to open the page in browser.
