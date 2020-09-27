@@ -5,12 +5,15 @@ import time
 from fibonacci import Fibonacci
 from database import *
 
+#creating an object of the class Fibonacci
 fib_obj = Fibonacci(cache)
 
+#render home page
 @app.route('/', methods = ['GET'])
 def home():
     return render_template('index.html')
 
+#return the logs (input requests, time of requests, and runtime) and cache status
 @app.route('/health', methods = ['POST', 'GET'])
 def get_health():
     logs = Logs.query.all()
@@ -20,6 +23,7 @@ def get_health():
     cached = 0 if cached == -1 else cached
     return jsonify({"cached": cached, "logs": logs})
 
+#return the output whose specified id is in the database
 @app.route('/long_fib/<int:id>', methods = ['POST', 'GET'])
 def get_long_fib(id):
     log = Logs.query.filter(Logs.id == id).first()
@@ -29,6 +33,7 @@ def get_long_fib(id):
     else:
         return jsonify({"error": "ID not found"}), 401
 
+#returns the output of sequences that add up to the input number
 @app.route('/fib/<int:n>', methods = ['POST', 'GET'])
 def get_fib(n):
     time1 = int(time.time()*1000)
@@ -49,7 +54,10 @@ def get_fib(n):
     new_log = Logs(input=n, output=resp_dump, time=time1, runtime=time2-time1)
     db.session.add(new_log)
     db.session.commit()
-
+    
+    #when RESTFul API is used, the output is returned directly. However, when the frontend is used, above 10,000 characters  
+    #the frontend can't display the output. Instead, a url is given linking to the result. This ensures that the API could be 
+    #used as part of a bigger application smoothly, while still ensuring that users of the frontend could access results.
     if not is_html:
         return jsonify(resp)
     if len(resp_dump) > 10000:

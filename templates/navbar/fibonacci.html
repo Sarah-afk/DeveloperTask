@@ -42,6 +42,7 @@
 		});
 
 		function show(){
+			//show the loader and hide the results
 			$("#loader").css("visibility", "");
 			$("#loader").css("height", 70);
 			$("#results").css("visibility", "hidden");
@@ -61,10 +62,11 @@
 						text = "Response is too long, <a href='"+data["url_response"]+"'>click here to show.</a>"
 					}
 					$("#results").html(text);
+					//show results and hide loader
 					$("#loader").css("visibility", "hidden");
 					$("#loader").css("height", 0);
-				        $("#results").css("visibility", "");
-				        $("#results").css("height", "auto");
+				    $("#results").css("visibility", "");
+				    $("#results").css("height", "auto");
 				},
 				error: function(data){
 					if(data.responseJSON != null){

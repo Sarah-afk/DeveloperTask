@@ -1,7 +1,7 @@
 class Fibonacci:
 
     def __init__(self, cache):
-
+        #the cache here saves the last calculated fibonacci of n for 500 seconds to be used instead of recalculating
         @cache.memoize(timeout=500)
         def fibo_calc(i):
             if i == 1:
@@ -13,6 +13,7 @@ class Fibonacci:
         self.fibo_calc = fibo_calc
 
     def array_fibo(self, n):
+        #this method returns an array of fibonacci numbers between two and n
         arr = []
         i = 1
         while True:
@@ -24,6 +25,7 @@ class Fibonacci:
         return arr
 
     def fibo_sum(self, arr_fib, target, partial=[]):
+        #this is a recursive method to find all possible combinations of arr_fib that sum up to target
         if target == 0:
             return [partial]
         if target < 0:

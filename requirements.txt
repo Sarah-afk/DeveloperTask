@@ -1,6 +1,6 @@
 flask
 flask-sqlalchemy
 flask-cors
-flask-caching==1.7.2
+flask-caching==1.7.2 #for compatibility with python2
 
 
