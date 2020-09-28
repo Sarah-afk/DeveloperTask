@@ -43,6 +43,7 @@ def get_fib(n):
         is_html = (request.form["is_html"] == '1')
 
     prev_run = Logs.query.filter(Logs.input == n).first()
+    #check if the input was previously entered. if so, get the result from the database instead of recalculating
     if prev_run:
         resp = json.loads(prev_run.output)
     else:
